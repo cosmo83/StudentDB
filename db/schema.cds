@@ -1,9 +1,12 @@
 namespace com.satinfotech.studentdb;
+using { managed, cuid } from '@sap/cds/common';
 
-
-entity Student {
+@assert.unique:{
+    studentid:[studentid]
+}
+entity Student: cuid, managed {
     @title: 'Student ID'
-    key studentid: String(5);
+    studentid: String(5);
     @title: 'Gender'
     gender: String(1);
     @title: 'First Name'
@@ -25,3 +28,4 @@ entity Gender {
     @title: 'Description'
     description: String(10);
 }
+
