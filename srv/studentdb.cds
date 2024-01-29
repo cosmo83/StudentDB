@@ -4,7 +4,11 @@ using { com.satinfotech.studentdb as db} from '../db/schema';
 service StudentDB {
     entity Student as projection on db.Student;
     entity Gender as projection on db.Gender;
-    entity Courses as projection on db.Courses;
+    entity Courses as projection on db.Courses{
+        @UI.Hidden: true
+        ID,
+        *
+    };
 }
 
 annotate StudentDB.Student with @odata.draft.enabled;
