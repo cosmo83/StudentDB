@@ -43,7 +43,7 @@ module.exports = cds.service.impl(function () {
         }
 
     });
-
+    
     this.on('READ', Gender, async(req) => {
         genders = [
             {"code":"M", "description":"Male"},
@@ -52,5 +52,6 @@ module.exports = cds.service.impl(function () {
         genders.$count=genders.length;
         return genders;
     })
+    
 
 });

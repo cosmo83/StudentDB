@@ -17,6 +17,8 @@ entity Student: cuid, managed {
     email_id: String(100) @mandatory;
     @title: 'Date of Birth'
     dob: Date @mandatory;
+    @title: 'Course'
+    course: Association to Courses;
     @title: 'Age'
     virtual age: Integer @Core.Computed;
 }
@@ -27,5 +29,12 @@ entity Gender {
     key code: String(1);
     @title: 'Description'
     description: String(10);
+}
+
+entity Courses : cuid, managed {
+    @title: 'Code'
+    code: String(3);
+    @title: 'Description'
+    description: String(50);
 }
 
