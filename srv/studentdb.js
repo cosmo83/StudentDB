@@ -30,13 +30,27 @@ module.exports = cds.service.impl(function () {
 
 
 
-    this.before(['CREATE','UPDATE'], Student, async(req) => {
+    this.before(['CREATE'], Student, async(req) => {
         age = calcAge(req.data.dob);
         if (age<18 || age>45){
             req.error({'code': 'WRONGDOB',message:'Student not the right age for school:'+age, target:'dob'});
         }
 
         let query1 = SELECT.from(Student).where({ref:["email_id"]}, "=", {val: req.data.email_id});
+        result = await cds.run(query1);
+        if (result.length >0) {
+            req.error({'code': 'STEMAILEXISTS',message:'Student with such email already exists', target: 'email_id'});
+        }
+
+    });
+
+    this.before(['UPDATE'], Student, async(req) => {
+        age = calcAge(req.data.dob);
+        if (age<18 || age>45){
+            req.error({'code': 'WRONGDOB',message:'Student not the right age for school:'+age, target:'dob'});
+        }
+
+        let query1 = SELECT.from(Student).where({ref:["email_id"]}, "=", {val: req.data.email_id}).where({ref:["ID"]}, "!=", {val: req.data.ID});
         result = await cds.run(query1);
         if (result.length >0) {
             req.error({'code': 'STEMAILEXISTS',message:'Student with such email already exists', target: 'email_id'});
