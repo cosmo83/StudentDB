@@ -36,7 +36,23 @@ annotate StudentDB.Student.Languages with @(
             Value: lang_ID
         },
       
-    ]
+    ],
+    UI.FieldGroup #StudentLanguages : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                Value : lang_ID,
+            }
+        ],
+    },
+    UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'LanguagesFacet',
+            Label : 'Languages',
+            Target : '@UI.FieldGroup#StudentLanguages',
+        },
+    ],
 );
 
 
@@ -197,12 +213,14 @@ annotate StudentDB.Student with @(
             Label : 'Student Information',
             Target : '@UI.FieldGroup#StudentInformation',
         },
-          {
+        
+        {
             $Type : 'UI.ReferenceFacet',
             ID : 'StudentLanguagesFacet',
             Label : 'Student Languages Information',
             Target : 'Languages/@UI.LineItem',
         },
+        
     ],
     
 );
