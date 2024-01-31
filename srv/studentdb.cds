@@ -3,7 +3,7 @@ using { com.satinfotech.studentdb as db} from '../db/schema';
 
 service StudentDB {
     entity Student as projection on db.Student;
-    entity Student.Languages as projection on db.Student.Languages;
+    entity Student.Languages as projection on db.StudentLanguages;
     entity Gender as projection on db.Gender;
     entity Languages as projection on db.Languages{
         @UI.Hidden
@@ -33,7 +33,7 @@ annotate StudentDB.Student.Languages with @(
     UI.LineItem:[
         {
             Label: 'Languages',
-            Value: lang_ID
+            Value: langid_ID
         },
       
     ],
@@ -41,7 +41,7 @@ annotate StudentDB.Student.Languages with @(
         $Type : 'UI.FieldGroupType',
         Data : [
             {
-                Value : lang_ID,
+                Value : langid_ID,
             }
         ],
     },
@@ -226,8 +226,8 @@ annotate StudentDB.Student with @(
 );
 
 annotate StudentDB.Student.Languages with {
-    lang @(
-        Common.Text: lang.description,
+    langid @(
+        Common.Text: langid.description,
         Common.TextArrangement: #TextOnly,
         Common.ValueListWithFixedValues: true,
         Common.ValueList : {
@@ -236,7 +236,7 @@ annotate StudentDB.Student.Languages with {
             Parameters: [
                 {
                     $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : lang_ID,
+                    LocalDataProperty : langid_ID,
                     ValueListProperty : 'ID'
                 },
                 {

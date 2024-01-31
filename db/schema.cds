@@ -20,13 +20,29 @@ entity Student: cuid, managed {
     @title: 'Course'
     course: Association to Courses;
     @title: 'Languages Known'
-    Languages: Composition of many {
-        key ID: UUID;
-        lang: Association to Languages;
-    }
+    Languages: Composition of many StudentLanguages on Languages.studentid = $self;
     @title: 'Age'
     virtual age: Integer @Core.Computed;
 }
+
+entity StudentLanguages: managed,cuid {
+    studentid: Association to Student;
+    langid: Association to Languages;
+}
+/*
+entity  Books : managed, cuid{
+    code: String(5);
+    name: String(40);
+    description: String(200);
+    authors: Composition of many {
+        author: Association to Authors;
+    };
+}
+
+entity Authors: managed, cuid {
+    name: String(40);
+}
+*/
 
 @cds.persistence.skip
 entity Gender {
