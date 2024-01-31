@@ -3,7 +3,13 @@ using { com.satinfotech.studentdb as db} from '../db/schema';
 
 service StudentDB {
     entity Student as projection on db.Student;
+    entity Student.Languages as projection on db.Student.Languages;
     entity Gender as projection on db.Gender;
+    entity Languages as projection on db.Languages{
+        @UI.Hidden
+        ID,
+        *
+    };
     entity Courses as projection on db.Courses{
         @UI.Hidden: true
         ID,
@@ -13,6 +19,7 @@ service StudentDB {
 
 annotate StudentDB.Student with @odata.draft.enabled;
 annotate StudentDB.Courses with @odata.draft.enabled;
+annotate StudentDB.Languages with @odata.draft.enabled;
 
 
 annotate StudentDB.Student with {
@@ -21,6 +28,49 @@ annotate StudentDB.Student with {
     email_id     @assert.format: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
     //telephone @assert.format: '^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$';
 }
+
+annotate StudentDB.Student.Languages with @(
+    UI.LineItem:[
+        {
+            Label: 'Languages',
+            Value: lang_ID
+        },
+      
+    ]
+);
+
+
+annotate StudentDB.Languages with @(
+    UI.LineItem:[
+        {
+            Value: code
+        },
+        {
+            Value: description
+        }
+    ],
+     UI.FieldGroup #Languages : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                Value : code,
+            },
+            {
+                Value : description,
+            }
+        ],
+    },
+    UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'LanguagesFacet',
+            Label : 'Languages',
+            Target : '@UI.FieldGroup#Languages',
+        },
+    ],
+
+);
+
 
 annotate StudentDB.Courses with @(
     UI.LineItem:[
@@ -50,9 +100,10 @@ annotate StudentDB.Courses with @(
             Target : '@UI.FieldGroup#CourseInformation',
         },
     ],
-   
 
 );
+
+
 
 
 annotate StudentDB.Gender with @(
@@ -100,13 +151,10 @@ annotate StudentDB.Student with @(
         },
         {
             Value: course.code
-        }
-  
-    ],
-    UI.SelectionFields: [ first_name , last_name, email_id],       
-);
+        },
 
-annotate StudentDB.Student with @(
+    ],
+    UI.SelectionFields: [ first_name , last_name, email_id],    
     UI.FieldGroup #StudentInformation : {
         $Type : 'UI.FieldGroupType',
         Data : [
@@ -149,9 +197,42 @@ annotate StudentDB.Student with @(
             Label : 'Student Information',
             Target : '@UI.FieldGroup#StudentInformation',
         },
+          {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'StudentLanguagesFacet',
+            Label : 'Student Languages Information',
+            Target : 'Languages/@UI.LineItem',
+        },
     ],
     
 );
+
+annotate StudentDB.Student.Languages with {
+    lang @(
+        Common.Text: lang.description,
+        Common.TextArrangement: #TextOnly,
+        Common.ValueListWithFixedValues: true,
+        Common.ValueList : {
+            Label: 'Languages',
+            CollectionPath : 'Languages',
+            Parameters: [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : lang_ID,
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'code'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'description'
+                },
+            ]
+        }
+    );
+}
 
 
 annotate StudentDB.Student with {

@@ -10,10 +10,14 @@
     "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "^1"
+    "@cap-js/sqlite": "^1",
+    "@sap/ux-specification": "^1.120.2"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-student": "cds watch --open student/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-course": "cds watch --open course/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "requires": {
@@ -24,5 +28,10 @@
         }
       }
     }
-  }
+  },
+  "sapux": [
+    "app/project1",
+    "app/student",
+    "app/course"
+  ]
 }

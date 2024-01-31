@@ -16,7 +16,9 @@ module.exports = cds.service.impl(function () {
     const { Student, Gender } = this.entities();
 
     this.on(['READ'], Student, async(req) => {
+        console.log(req.query);
         results = await cds.run(req.query);
+       
         if(Array.isArray(results)){
             results.forEach(element => {
              element.age=calcAge(element.dob); 
