@@ -5,7 +5,7 @@ service StudentDB {
     entity Student as projection on db.Student;
     entity Student.Languages as projection on db.StudentLanguages;
     entity Gender as projection on db.Gender;
-    entity Languages as projection on db.Languages{
+    entity Languages as projection on db.Languages {
         @UI.Hidden
         ID,
         *
@@ -168,6 +168,9 @@ annotate StudentDB.Student with @(
         {
             Value: course.code
         },
+        {
+            Value: is_alumni
+        }
 
     ],
     UI.SelectionFields: [ first_name , last_name, email_id],    

@@ -23,12 +23,15 @@ entity Student: cuid, managed {
     Languages: Composition of many StudentLanguages on Languages.studentid = $self;
     @title: 'Age'
     virtual age: Integer @Core.Computed;
+    @title: 'Is Alumni'
+    is_alumni: Boolean default false;
 }
 
 entity StudentLanguages: managed,cuid {
     studentid: Association to Student;
     langid: Association to Languages;
 }
+
 /*
 entity  Books : managed, cuid{
     code: String(5);

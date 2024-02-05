@@ -7,10 +7,14 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^7",
-    "express": "^4"
+    "@sap/cds-hana": "^2",
+    "@sap/xssec": "^3.6.1",
+    "express": "^4",
+    "passport": "^0"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
     "@sap/ux-specification": "^1.120.2"
   },
   "scripts": {
@@ -26,7 +30,16 @@
         "credentials": {
           "url": "db.sqlite"
         }
-      }
+      },
+      "[hybrid]": {
+        "db": "hana"
+      },
+      "[production]": {
+        "auth": "xsuaa",
+        "db": "hana"
+      },
+      "auth":"mocked"
+      
     }
   },
   "sapux": [
